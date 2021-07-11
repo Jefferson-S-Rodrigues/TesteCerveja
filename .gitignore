@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+/src/main/java/com/testecerveja/TesteCerveja/Spotify/Credenciais.java
+/src/main/java/com/testecerveja/TesteCerveja/Spotify/ArquivosApoio/

@@ -16,22 +16,25 @@ public class CervejaController {
     @PostMapping(path="/add")
     public @ResponseBody String addCerveja (
             @RequestParam String estilo,
-            @RequestParam int tempH,
-            @RequestParam int tempL) {
+            @RequestParam int tempL,
+            @RequestParam int tempH) {
 
-        Cerveja n = new Cerveja();
-        n.setEstilo(estilo);
-        n.setTempH(tempH);
-        n.setTempL(tempL);
-        cervejaRepository.save(n);
+        Cerveja _cerveja = new Cerveja();
+        _cerveja.setEstilo(estilo);
+        if (tempH < tempL) {
+            int _temp = tempH;
+            tempH = tempL;
+            tempL = _temp;
+        }
+        _cerveja.setTempH(tempH);
+        _cerveja.setTempL(tempL);
+        cervejaRepository.save(_cerveja);
         return "Saved";
     }
 
     @GetMapping(path="/all")
-    public @ResponseBody Iterable<Cerveja> getAllUsers() {
-        // This returns a JSON or XML with the users
+    public @ResponseBody Iterable<Cerveja> getAllCervejas() {
         return cervejaRepository.findAll();
     }
-
 
 }
