@@ -7,6 +7,7 @@ import com.testecerveja.TesteCerveja.SpotifyDAO.Playlist;
 import com.testecerveja.TesteCerveja.SpotifyDAO.PlaylistDAO;
 import com.testecerveja.TesteCerveja.Spotify.SpotifyController;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -75,6 +76,7 @@ public class CervejaController {
     ResponseEntity getPlaylist(@RequestParam int temp) {
 
         PlaylistDAO playlist = new PlaylistDAO();
+        SpotifyController sc = new SpotifyController();
         try {
             JSONObject dados = SpotifyController.getPlaylist(temp, cervejaRepository);
 
@@ -103,7 +105,7 @@ public class CervejaController {
             playlist.setPlaylist(_pl);
 
             return new ResponseEntity<PlaylistDAO>(playlist, HttpStatus.OK);
-        } catch (Exception e) {
+        } catch (JSONException e) {
 
             return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

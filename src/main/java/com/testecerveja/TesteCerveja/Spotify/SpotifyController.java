@@ -2,6 +2,7 @@ package com.testecerveja.TesteCerveja.Spotify;
 
 import com.testecerveja.TesteCerveja.Entity.Cerveja;
 import com.testecerveja.TesteCerveja.Repository.CervejaRepository;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public final class SpotifyController {
 
-    public static JSONObject getPlaylist(int temp, CervejaRepository cervejaRepository) throws Exception {
+    public static JSONObject getPlaylist(int temp, CervejaRepository cervejaRepository) throws JSONException {
 
         List<Cerveja> _cervejas = cervejaRepository.findCervejaByTemp(temp);
 
@@ -34,6 +35,6 @@ public final class SpotifyController {
             }
         }
 
-        throw new Exception("Playlist não encontrada");
+        throw new JSONException("Playlist não encontrada");
     }
 }
