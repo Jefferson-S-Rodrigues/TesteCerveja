@@ -9,7 +9,7 @@ import java.util.Base64;
 
 import org.json.JSONObject;
 
-public class AcessoSpotify {
+public final class AcessoSpotify {
 
     private static String token;
 

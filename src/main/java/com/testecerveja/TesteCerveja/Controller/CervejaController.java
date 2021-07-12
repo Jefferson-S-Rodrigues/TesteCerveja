@@ -2,13 +2,19 @@ package com.testecerveja.TesteCerveja.Controller;
 
 import com.testecerveja.TesteCerveja.Entity.Cerveja;
 import com.testecerveja.TesteCerveja.Repository.CervejaRepository;
+import com.testecerveja.TesteCerveja.SpotifyDAO.Musica;
+import com.testecerveja.TesteCerveja.SpotifyDAO.Playlist;
+import com.testecerveja.TesteCerveja.SpotifyDAO.PlaylistDAO;
+import com.testecerveja.TesteCerveja.Spotify.SpotifyController;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 @Controller
@@ -62,6 +68,46 @@ public class CervejaController {
     public @ResponseBody
     Iterable<Cerveja> getCervejaByTemp(@RequestParam int temp) {
         return cervejaRepository.findCervejaByTemp(temp);
+    }
+
+    @GetMapping(path = "/playlist")
+    public @ResponseBody
+    ResponseEntity getPlaylist(@RequestParam int temp) {
+
+        PlaylistDAO playlist = new PlaylistDAO();
+        try {
+            JSONObject dados = SpotifyController.getPlaylist(temp, cervejaRepository);
+
+            playlist.setBeerStyle(dados.getString("beerStyle"));
+            Playlist _pl = new Playlist();
+            JSONObject jpl = new JSONObject(dados.get("playlist").toString());
+            _pl.setName(jpl.getString("name"));
+            JSONArray musicas = jpl.getJSONObject("tracks").getJSONArray("items");
+
+            musicas.toList().forEach(musica -> {
+                Musica m = new Musica();
+
+
+                if (((HashMap) ((HashMap) musica).get("track")).containsKey("name")) {
+                    m.setName(((HashMap) ((HashMap) musica).get("track")).get("name").toString());
+                }
+                if (((HashMap) ((HashMap) musica).get("track")).containsKey("artist")) {
+                    m.setArtist(((HashMap) ((HashMap) musica).get("track")).get("artist").toString());
+                }
+                if (((HashMap) ((HashMap) musica).get("track")).containsKey("link")) {
+                    m.setLink(((HashMap) ((HashMap) musica).get("track")).get("link").toString());
+                }
+
+                _pl.addMusica(m);
+            });
+            playlist.setPlaylist(_pl);
+
+            return new ResponseEntity<PlaylistDAO>(playlist, HttpStatus.OK);
+        } catch (Exception e) {
+
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @PutMapping("/cerveja/{id}")

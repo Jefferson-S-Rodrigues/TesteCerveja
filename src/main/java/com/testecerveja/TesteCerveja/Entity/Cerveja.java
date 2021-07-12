@@ -64,8 +64,4 @@ public class Cerveja {
     public void setTempH(int tempH) {
         this.tempH = tempH;
     }
-
-    public double getMedia() {
-        return (this.tempH + this.tempL) / 2;
-    }
 }

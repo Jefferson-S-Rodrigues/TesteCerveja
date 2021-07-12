@@ -1,6 +1,6 @@
 # Desafio Cervejaria :beers:
 
-O objetivo desse projeto é escolher qual a melhor cerveja para uma dada temperatura. :beer:
+O objetivo desse projeto é escolher uma _Playlist_ :notes: no _Spotify_ :sound: de acordo com a escolha de uma cerveja para uma dada temperatura. :beer:
 
 ## Comandos
 
@@ -12,8 +12,9 @@ GET | /api/cerveja/`:id` | Lista uma cerveja pelo `:id`
 GET | /api/cerveja/estilo?estilo=`:estilo` | Lista uma cerveja pelo `:estilo`
 PUT | /api/cerveja/`:id` | Edita uma cerveja pelo `:id`
 DELETE | /api/cerveja/`:id` | Deleta uma cerveja pelo `:id`
+__GET__ | __/api/playlist?temp=`:temp`__ | __Busca uma _Playlist_ no _Spotify_ a partir de uma temperatura `:temp` de uma cerveja__
 
-### Exemplos
+### Exemplos (comando Curl)
 
 #### Inserindo as cervejas
 ```console
